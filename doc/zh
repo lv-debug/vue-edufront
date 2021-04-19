@@ -1,1 +1,24 @@
 1、打开VUE nuxt的模板。放到新的项目里面（vue-edufront）使用npm install下载依赖（node_moudules）。使用npm run dev启动项目
+2、安装幻灯片插件banner
+    2.1、 npm install vue-awesome-swiper
+    2.2、在plugins创建nuxt-swiper-plugin.js
+    2.3、在nuxt-swiper-plugin.js里面把下面代码，把'vue-awesome-swiper/dist/ssr'加入vue中
+        import Vue from 'vue'
+        import VueAwesomeSwiper from 'vue-awesome-swiper/dist/ssr'
+        Vue.use(VueAwesomeSwiper)
+
+    2.4、在nuxt.config.js里面加入如下代码把幻灯片插件装入nuxt的配置文件中
+        plugins: [
+            { src: '~/plugins/nuxt-swiper-plugin.js', ssr: false }
+        ],
+        css: [
+            'swiper/dist/css/swiper.css'
+        ],
+    2.5 把页面需要的静态资源放到assets里面
+    2.6 设置欢迎页首页在layouts的default.vue写代码：公共页面的头部和尾部，在page下面的index.vue主要展示的内容：中心
+
+3、nuxt动态路由
+    3.1 _id.vue:用于详情，每次查询的页面都不一样，传递id，根据id查询不同的页面，使用_id.vue
+
+4、下载axios
+5、创建utils用于工具类,编写request.js 创建axios实例
