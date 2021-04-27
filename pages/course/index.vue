@@ -18,8 +18,8 @@
                 <li>
                   <a title="全部" href="#">全部</a>
                 </li>
-                <li v-for="( subject , index ) in subjectNestedList" :key="index">
-                  <a :title="subject.label" href="#">{{subject.label}}</a>
+                <li v-for="( subject , index ) in subjectNestedList" :key="index" :class="{active:oneIndex == index}">
+                  <a :title="subject.label" href="#" @click="searchOne(subject.id,index)">{{subject.label}}</a>
                 </li>
               </ul>
             </dd>
@@ -30,8 +30,8 @@
             </dt>
             <dd class="c-s-dl-li">
               <ul class="clearfix">
-                <li v-for="( subjectson , index ) in subSubjectList" :key="index">
-                  <a :title="subjectson.label" href="#">{{subjectson.label}}</a>
+                <li v-for="( subjectson , index ) in subSubjectList" :key="index" :class="{active:twoIndex == index}">
+                  <a :title="subjectson.label" href="#" @click="searchTwo(subjectson.id,index)">{{subjectson.label}}</a>
                 </li>
               </ul>
             </dd>
@@ -47,15 +47,19 @@
           </section>
           <section class="fl">
             <ol class="js-tap clearfix">
-              <li>
-                <a title="关注度" href="#">关注度</a>
+             <li :class="{'current bg-orange':buyCountSort!=''}">
+                <a title="销量" href="javascript:void(0);" @click="searchBuyCount()">销量
+                <span :class="{hide:buyCountSort==''}">↓</span>
+                </a>
               </li>
-              <li>
-                <a title="最新" href="#">最新</a>
+              <li :class="{'current bg-orange':gmtCreateSort!=''}">
+                <a title="最新" href="javascript:void(0);" @click="searchGmtCreate()">最新
+                <span :class="{hide:gmtCreateSort==''}">↓</span>
+                </a>
               </li>
-              <li class="current bg-orange">
-                <a title="价格" href="#">价格&nbsp;
-                  <span>↓</span>
+              <li :class="{'current bg-orange':priceSort!=''}">
+                <a title="价格" href="javascript:void(0);" @click="searchPrice()">价格&nbsp;
+                  <span :class="{hide:priceSort==''}">↓</span>
                 </a>
               </li>
             </ol>
@@ -75,11 +79,11 @@
                   <section class="course-img">
                     <img style="width:300px;height:200px" :src="item.cover" class="img-responsive" :alt="item.title">
                     <div class="cc-mask">
-                      <a href="/course/1" title="开始学习" class="comm-btn c-btn-1">开始学习</a>
+                      <a :href="'/course/'+item.id" title="开始学习" class="comm-btn c-btn-1">开始学习</a>
                     </div>
                   </section>
                   <h3 class="hLh30 txtOf mt10">
-                    <a href="/course/1" :title="item.title" class="course-title fsize18 c-333">{{item.title}}</a>
+                    <a :href="'/course/'+item.id"  :title="item.title" class="course-title fsize18 c-333">{{item.title}}</a>
                   </h3>
                   <section class="mt10 hLh20 of">
                     <span class="fr jgTag bg-green" v-if="Number(item.price) === 0">
@@ -172,7 +176,6 @@ export default {
     initFirstSubjict() {
       courseApi.getAllsubject().then(response =>{
         this.subjectNestedList = response.data.data.jsonObject
-        this.subSubjectList = response.data.data.jsonObject.children
       })
     },
 
@@ -183,9 +186,80 @@ export default {
         .then(response => {
           this.data = response.data.data
         })
-    }
+    },
 
+    //点击一级菜单渲染二级菜单
+    searchOne(subjectId,index) {
+      this.oneIndex = index 
+      this.twoIndex = -1
+      this.searchObj.subjectId = ""
+      this.subSubjectList = []
+
+      this.searchObj.subjectParentId = subjectId
+      this.gotoPage(1)
+
+      for (let i = 0 ; i < this.subjectNestedList.length ; i++) {
+        debugger
+        if(subjectId == this.subjectNestedList[i].id) {
+          debugger
+          this.subSubjectList = this.subjectNestedList[i].children
+        }
+      }
+    },
+
+    //点击二级菜单渲染内容
+    searchTwo(subjectSonId,index) {
+      this.twoIndex = index
+      this.searchObj.subjectId = subjectSonId
+      this.gotoPage(1)
+
+    },
+
+    //根据销量排序
+    searchBuyCount() {
+      this.buyCountSort = "1"
+      this.gmtCreateSort = ""
+      this.priceSort = ""
+      this.searchObj.buyCountSort = this.buyCountSort
+      this.searchObj.gmtCreateSort = this.gmtCreateSort
+      this.searchObj.priceSort = this.priceSort
+      this.gotoPage(1)
+    },
+
+    //根据最新时间查询
+    searchGmtCreate() {
+      this.buyCountSort = ""
+      this.gmtCreateSort = "1"
+      this.priceSort = ""
+      this.searchObj.buyCountSort = this.buyCountSort
+      this.searchObj.gmtCreateSort = this.gmtCreateSort
+      this.searchObj.priceSort = this.priceSort
+      this.gotoPage(1)
+    },
+
+    //根据价格查询排序
+    searchPrice() {
+      this.buyCountSort = ""
+      this.gmtCreateSort = ""
+      this.priceSort = "1"
+      this.searchObj.buyCountSort = this.buyCountSort
+      this.searchObj.gmtCreateSort = this.gmtCreateSort
+      this.searchObj.priceSort = this.priceSort
+      this.gotoPage(1)
+
+    }
   }
 
 };
 </script>
+<style scoped>
+  .active {
+    background: #bdbdbd;
+  }
+  .hide {
+    display: none;
+  }
+  .show {
+    display: block;
+  }
+</style>
