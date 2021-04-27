@@ -2,10 +2,16 @@
 2、安装幻灯片插件banner
     2.1、 npm install vue-awesome-swiper
     2.2、在plugins创建nuxt-swiper-plugin.js
-    2.3、在nuxt-swiper-plugin.js里面把下面代码，把'vue-awesome-swiper/dist/ssr'加入vue中
+    2.3、在nuxt-swiper-plugin.js里面把下面代码加入vue中
         import Vue from 'vue'
         import VueAwesomeSwiper from 'vue-awesome-swiper/dist/ssr'
+        import VueQriously from 'vue-qriously'
+        import ElementUI from 'element-ui' //element-ui的全部组件
+        import 'element-ui/lib/theme-chalk/index.css'//element-ui的css
+        Vue.use(ElementUI) //使用elementUI
+        Vue.use(VueQriously)
         Vue.use(VueAwesomeSwiper)
+
 
     2.4、在nuxt.config.js里面加入如下代码把幻灯片插件装入nuxt的配置文件中
         plugins: [
@@ -14,11 +20,23 @@
         css: [
             'swiper/dist/css/swiper.css'
         ],
-    2.5 把页面需要的静态资源放到assets里面
-    2.6 设置欢迎页首页在layouts的default.vue写代码：公共页面的头部和尾部，在page下面的index.vue主要展示的内容：中心
+    2.6 设置欢迎页首页在layouts的default.vue写代码：公共页面的头部和尾部，在page下面的index.vue主要展示的内容：中心（nuxt启动的时候，默认打开的是pages下面的index.vue）
 
 3、nuxt动态路由
     3.1 _id.vue:用于详情，每次查询的页面都不一样，传递id，根据id查询不同的页面，使用_id.vue
+    3.2 设置欢迎页首页在layouts的default.vue写代码：公共页面的头部和尾部，在page下面的index.vue主要展示的内容：中心（nuxt启动的时候，默认打开的是pages下面的index.vue）
 
 4、下载axios
 5、创建utils用于工具类,编写request.js 创建axios实例
+6、把页面需要的静态资源放到assets里面
+7、在layouts里面加sign.vue用于注册布局页面
+8、创建register.vue用于注册页面
+9、创建login.vue用于登录界面
+10、 登录流程
+    10.1、调用登录接口，调用成功返回token字符串。
+    10.2、把token字符串放到cookie里面。
+    10.3、创建前端拦截器，判断cookie里面有没有token字符串，如果有，把token放到header里面（因为后端接收的时request,所以放到hearder请求头里面）
+    10.4、根据token值，调用接口，根据token值获取用户信息。为了首页面显示。
+    10.5、把调用中返回的用户信息也放到cookie里面。
+    10.6、在首页面中显示用户信息，从10.4里面的cookie获取。
+11、

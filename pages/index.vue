@@ -33,7 +33,7 @@
                 <li v-for="course in eduList" :key="course.id">
                   <div class="cc-l-wrap">
                     <section class="course-img">
-                      <img
+                      <img style="width:300px;height:200px"
                         :src="course.cover"
                         class="img-responsive"
                         :alt="course.title"
@@ -49,8 +49,11 @@
                       <span class="fr jgTag bg-green" v-if="Number(course.price) === 0">
                         <i class="c-fff fsize12 f-fA">免费</i>
                       </span>
+                      <span class="fr jgTag bg-green" v-if="Number(course.price) > 0">
+                        <i class="c-fff fsize12 f-fA">{{course.price}}元</i>
+                      </span>
                       <span class="fl jgAttr c-ccc f-fA">
-                        <i class="c-999 f-fA">9634人学习</i>
+                        <i class="c-999 f-fA">{{course.viewCount}}人学习</i>
                         |
                         <i class="c-999 f-fA">9634评论</i>
                       </span>
