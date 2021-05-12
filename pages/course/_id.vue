@@ -33,7 +33,10 @@
                 <a class="c-fff vam" title="收藏" href="#" >收藏</a>
               </span>
             </section>
-            <section class="c-attr-mt">
+            <section v-if="isbuy || Number(courseWebVo.price) === 0" class="c-attr-mt">
+              <a @click="createOrder()"  title="立即观看" class="comm-btn c-btn-3">立即观看</a>
+            </section>
+            <section v-else class="c-attr-mt">
               <a @click="createOrder()"  title="立即购买" class="comm-btn c-btn-3">立即购买</a>
             </section>
           </section>
@@ -179,13 +182,30 @@ export default {
         //   }
         // },
         return {
-          courseWebVo : response.data.data.courseWebVo,
-          chapterVideoByCourseId : response.data.data.chapterVideoByCourseId,
           courseId:params.id
         }
     })
   },
+  data () {
+    return {
+      courseWebVo: {},
+      chapterVideoByCourseId: [],
+      isbuy: false,
+    }
+  },
+  created () {
+    this.initCourseInfo()
+  },
   methods:{
+    initCourseInfo() {
+      courseApi.getCourseDescById(this.courseId)
+        .then(response => {
+          debugger
+          this.courseWebVo=response.data.data.courseWebVo,
+          this.chapterVideoByCourseId=response.data.data.chapterVideoByCourseId,
+          this.isbuy=response.data.data.isbBuyCourse
+        })
+    },
     createOrder(){
       orderApi.createOrder(this.courseId)
         .then(response =>{

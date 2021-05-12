@@ -90,5 +90,13 @@ export default {
             }
         })
     },
+    methods:{
+      //去支付
+      toPay () {
+        debugger
+        this.$router.push({path:'/pay/'+this.order.orderNo})
+      }
+    }
+
 }
 </script>

@@ -15,5 +15,21 @@ export default {
       url: `/orderservice/t-order/getOrderInfo/${orderNo}`,
       method: 'get'
     })
+  },
+
+  //生成二维码方法
+  createRWCode(orderNo) {
+    return request({
+      url: `/orderservice/tPayLog/createRWCode/${orderNo}`,
+      method: 'get'
+    })
+  },
+
+  //查询订单支付状态
+  queryRWCodeStatus(orderNo) {
+    return request({
+      url: `/orderservice/tPayLog/queryRWCode/${orderNo}`,
+      method: 'get'
+    })
   }
 }
