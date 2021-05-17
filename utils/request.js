@@ -5,7 +5,10 @@ import cookie from 'js-cookie'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:9009', // api的base_url
+  //nginx的端口,
+  //baseURL: 'http://localhost:9009', // api的base_url
+  //gateway端口
+  baseURL: 'http://localhost:8222',
   timeout: 20000 // 请求超时时间
 })
 
